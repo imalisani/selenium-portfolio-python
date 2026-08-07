@@ -1,9 +1,10 @@
+import os
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from pages.login_page import LoginPage
-from pages.inventory_page import InventoryPage # <--- Nueva importación
+from pages.inventory_page import InventoryPage
 
 @pytest.fixture
 def driver():
@@ -24,6 +25,6 @@ def test_agregar_producto_al_carrito(driver):
     inventory_page = InventoryPage(driver)
     inventory_page.add_backpack_to_cart()
     
-    driver.save_screenshot("evidencia_carrito.png")
+    os.makedirs("evidence", exist_ok=True)
+    driver.save_screenshot("evidence/evidencia_carrito.png")
     assert inventory_page.get_cart_count() == "1"
-    print("\n¡Prueba exitosa! Se agregó la mochila correctamente.")

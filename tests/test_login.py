@@ -1,9 +1,9 @@
+import os
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from pages.login_page import LoginPage
-import time
 
 @pytest.fixture
 def driver():
@@ -22,5 +22,6 @@ def test_login_exitoso(driver):
     login_page.enter_password("secret_sauce")
     login_page.click_login()
 
+    os.makedirs("evidence", exist_ok=True)
+    driver.save_screenshot("evidence/evidencia_login.png")
     assert "inventory.html" in driver.current_url
-    print("¡Login exitoso!")
