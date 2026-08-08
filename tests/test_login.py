@@ -1,17 +1,34 @@
-import os
 import pytest
+
+from pages.inventory_page import InventoryPage
 from pages.login_page import LoginPage
 
+STANDARD_USER = "standard_user"
+LOCKED_OUT_USER = "locked_out_user"
+PASSWORD = "secret_sauce"
 
-def test_login_exitoso(driver):
-    driver.get("https://www.saucedemo.com/")
 
+@pytest.mark.smoke
+def test_successful_login_with_a_standard_user(driver):
+    login_page = LoginPage(driver)
+    inventory_page = InventoryPage(driver)
+
+    login_page.goto()
+    login_page.login(STANDARD_USER, PASSWORD)
+
+    assert "inventory.html" in driver.current_url
+    assert inventory_page.get_title() == "Products"
+
+
+@pytest.mark.negative
+def test_blocked_user_cannot_access_the_system(driver):
     login_page = LoginPage(driver)
 
-    login_page.enter_username("standard_user")
-    login_page.enter_password("secret_sauce")
-    login_page.click_login()
+    login_page.goto()
+    login_page.login(LOCKED_OUT_USER, PASSWORD)
 
-    os.makedirs("evidence", exist_ok=True)
-    driver.save_screenshot("evidence/evidencia_login.png")
-    assert "inventory.html" in driver.current_url
+    assert (
+        login_page.get_error_message()
+        == "Epic sadface: Sorry, this user has been locked out."
+    )
+    assert "inventory.html" not in driver.current_url
