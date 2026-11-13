@@ -1,7 +1,8 @@
 # selenium-portfolio-python
 
 End-to-end tests for [Sauce Demo](https://www.saucedemo.com) built with Selenium and
-Python, using the Page Object Model.
+the Page Object Model. The Python suite covers login, cart, and accessibility.
+The [Java suite](#checkout-automation-with-java) covers checkout.
 
 ---
 
@@ -45,6 +46,25 @@ automated and why**:
 
 - [`docs/test-plan-login.md`](./docs/test-plan-login.md)
 - [`docs/test-plan-cart.md`](./docs/test-plan-cart.md)
+
+## Checkout automation with Java
+
+[Selenium WebDriver 4, Java 17, JUnit 5, and Maven](./java-tests/pom.xml) exercise the public demo with synthetic checkout data. The [test class](./java-tests/src/test/java/dev/imalisani/saucedemo/CheckoutTest.java) contains the assertions, and Page Objects hold the `data-test` selectors and explicit waits. Each scenario starts a fresh Chrome session.
+
+| Case | Risk | Expected result |
+|---|---|---|
+| WEB-CO-01 · Confirm an order | Incorrect charges or incomplete checkout | The backpack subtotal is $29.99, tax is $2.40, the total is $32.39, and the confirmation appears. |
+| WEB-CO-02 · Omit and correct the postal code | Incomplete shipping details advance to review | The form shows a required-field error and opens the order overview after a postal code is entered. |
+| WEB-CO-03 · Remove an item before checkout | A removed item is still included in the order | The cart count drops to one, and the order overview includes only the backpack and its subtotal. |
+
+Run from the repository root with JDK 17, Maven 3.9+, and Chrome installed.
+
+```bash
+mvn -f java-tests/pom.xml test
+mvn -f java-tests/pom.xml -Dheadless=false test
+```
+
+The [Selenium Java workflow](https://github.com/imalisani/selenium-portfolio-python/actions/workflows/selenium-java.yml) uploads `selenium-java-checkout-evidence` with JUnit XML, one screenshot per browser test, and HTML page source on test failure. Local evidence is under `java-tests/target/`.
 
 ## Decisions
 
@@ -121,7 +141,7 @@ else's deployment rather than the state of this code.
 
 ## Roadmap
 
-- [ ] Add checkout coverage
+- [x] Add checkout coverage in Java
 - [ ] Cross-browser execution (Firefox), matching the Playwright project matrix
 
 ## Related
