@@ -5,15 +5,15 @@
 **Reported by:** Irina Malisani
 **Date:** 2026-08
 **Defect nature:** authentic
-**Status:** open
+**Status:** fixed in Sauce Demo, verified 2026-11-13
 
 ---
 
 ## Summary
 
 The product sort `<select>` element (`[data-test="product-sort-container"]`) on the
-inventory page has no associated `<label>`, `aria-label`, or `aria-labelledby`
-attribute. Screen reader users hear "combo box" with no indication of what the control
+inventory page had no associated `<label>`, `aria-label`, or `aria-labelledby`
+attribute. Screen reader users heard "combo box" with no indication of what the control
 does.
 
 **Severity:** critical · **Priority:** p1 · **WCAG:** 4.1.2 Name, Role, Value (Level A)
@@ -47,9 +47,12 @@ versions, a matching result would have proved nothing.
 ## Detection
 
 - Test: `tests/test_accessibility.py::test_inventory_page_has_no_critical_or_serious_wcag_violations`
-- Marked `xfail(strict=True)` — see [ADR-005](../decisions/005-known-defects-as-strict-xfail.md)
+- Originally marked `xfail(strict=True)` per [ADR-005](../decisions/005-known-defects-as-strict-xfail.md)
 - Full violation report: `evidence/axe-inventory-page.json`, written on every run
 
-Because the expected failure is strict, the suite turns **red** if Sauce Demo ever adds
-the missing attribute. The day this bug is fixed, this report stops being true, and the
-suite is what says so.
+## Fix verification
+
+On 2026-11-13 the strict expected failure reported `XPASS`. The captured HTML
+showed `aria-label="Sort products"` on the dropdown, and axe reported zero
+violations on the inventory page. The test now runs as a regular regression check.
+[GitHub Actions run and evidence](https://github.com/imalisani/selenium-portfolio-python/actions/runs/43505540336)
