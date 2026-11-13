@@ -9,10 +9,12 @@ final class InventoryPage extends Page {
 
     void addBackpack() {
         click("add-to-cart-sauce-labs-backpack");
+        waitUntilVisible("remove-sauce-labs-backpack");
     }
 
     void addBikeLight() {
         click("add-to-cart-sauce-labs-bike-light");
+        waitUntilVisible("remove-sauce-labs-bike-light");
     }
 
     CartPage openCart() {

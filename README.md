@@ -49,7 +49,7 @@ automated and why**:
 
 ## Checkout automation with Java
 
-[Selenium WebDriver 4, Java 17, JUnit 5, and Maven](./java-tests/pom.xml) exercise the public demo with synthetic checkout data. The [test class](./java-tests/src/test/java/dev/imalisani/saucedemo/CheckoutTest.java) contains the assertions, and Page Objects hold the `data-test` selectors and explicit waits. Each scenario starts a fresh Chrome session.
+[Selenium WebDriver 4, Java 17, JUnit 5, and Maven](./java-tests/pom.xml) exercise the public demo with synthetic checkout data. The [test class](./java-tests/src/test/java/dev/imalisani/saucedemo/CheckoutTest.java) contains the assertions, and Page Objects hold the `data-test` selectors and explicit waits. Each scenario starts a fresh Chrome session with password prompts disabled for the public demo credentials.
 
 | Case | Risk | Expected result |
 |---|---|---|

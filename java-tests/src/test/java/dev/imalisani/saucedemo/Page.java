@@ -30,6 +30,10 @@ abstract class Page {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(selector(name))).getText();
     }
 
+    protected void waitUntilVisible(String name) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(selector(name)));
+    }
+
     protected List<String> itemNames() {
         return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(selector("inventory-item-name")))
                 .stream().map(item -> item.getText()).toList();
