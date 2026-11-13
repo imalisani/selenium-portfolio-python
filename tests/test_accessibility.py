@@ -72,15 +72,6 @@ def test_login_page_has_no_critical_or_serious_wcag_violations(driver):
 
 
 @pytest.mark.a11y
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "BUG-001: the product sort <select> has no accessible name. "
-        "Known defect in the application under test, not in this suite. "
-        "strict=True means this turns red the day Sauce Demo fixes it. "
-        "See docs/bugs-reports/BUG-001-select-name-inventory.md"
-    ),
-)
 def test_inventory_page_has_no_critical_or_serious_wcag_violations(driver):
     login_page = LoginPage(driver)
     login_page.goto()
